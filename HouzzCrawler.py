@@ -1,6 +1,6 @@
 import httplib
 from HTMLParser import HTMLParser
-from threading import *
+import threading
 
 class HouzzCrawler(HTMLParser):
 
@@ -95,18 +95,23 @@ def parse(page_num):
     profile_crawler = ProfileCrawler(houzz_crawler.list_of_pros)
     profile_crawler.Crawl()
 
+def thread_spawn(current_page):
+    print 'thread spawn'
+    while (threading.active_count() <= 40):
+        thread_name = 'thread ' + str(current_page)
+        t = threading.Thread(target=parse, name = thread_name, args=(current_page, ))
+        t.start()
+        current_page +=1
+    threading.Timer(4.0, thread_spawn, (current_page)).start()
 
 #BEGIN
 print 'Welcome to HouzzCrawler'
 
-total_pages = raw_input('How many pages should I crawl')
+total_pages = raw_input('How many pages should I crawl? ')
 
 #Global
-lock = Lock()
+lock = threading.Lock()
+MAX_THREADS = 40
 f = open('architecture_websites.txt', 'a')
 
-if __name__ == '__main__':
-    for i in range (0, total):
-        thread_name = 'thread ' + str(i)
-        t = Thread(target=parse, name = thread_name, args=(i, ))
-        t.start()
+thread_spawn(0)
