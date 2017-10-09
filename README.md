@@ -8,21 +8,21 @@ Python script that crawls Houzz.com architects directory and extracts emails fro
 
 Go into the directory where the python files are installed and type:
 
-'''
+```
 python HouzzCrawler.py
-'''
+```
 
 you will be prompted with the following questions
 
-'''
+```
 At which page should I start crawling?
-'''
+```
 
 the script is zero indexed so page 0 is the first page
 
-'''
+```
 How many pages should I crawl?
-'''
+```
 
 Crawls from start page to specified number of pages
 
